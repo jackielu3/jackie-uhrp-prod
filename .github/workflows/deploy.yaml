@@ -45,21 +45,21 @@ jobs:
           HTTP_PORT: ${{ env.CURRENT_BRANCH == 'production' && secrets.PROD_HTTP_PORT || secrets.STAGING_HTTP_PORT }}
 
       - name: Debug Secret
-        run:  echo ${{ secrets.PROD_ADMIN_TOKEN }} | sed 's/./& /g'
-              echo ${{ secrets.PROD_BSV_NETWORK }} | sed 's/./& /g'
-              echo ${{ secrets.PROD_GCP_BUCKET_NAME }} | sed 's/./& /g'
-              echo ${{ secrets.PROD_GCP_STORAGE_CREDS }} | sed 's/./& /g'
-              echo ${{ secrets.PROD_GCR_HOST }} | sed 's/./& /g'
-              echo ${{ secrets.PROD_GCR_IMAGE_NAME }} | sed 's/./& /g'
-              echo ${{ secrets.PROD_GCR_PUSH_KEY }} | sed 's/./& /g'
-              echo ${{ secrets.PROD_GOOGLE_PROJECT_ID }} | sed 's/./& /g'
-              echo ${{ secrets.PROD_HOSTING_DOMAIN }} | sed 's/./& /g'
-              echo ${{ secrets.PROD_HTTP_PORT }} | sed 's/./& /g'
-              echo ${{ secrets.PROD_MIN_HOSTING_MINUTES }} | sed 's/./& /g'
-              echo ${{ secrets.PROD_NODE_ENV }} | sed 's/./& /g'
-              echo ${{ secrets.PROD_PRICE_PER_GB_MO }} | sed 's/./& /g'
-              echo ${{ secrets.PROD_SERVER_PRIVATE_KEY }} | sed 's/./& /g'
-              echo ${{ secrets.PROD_WALLET_STORAGE_URL }} | sed 's/./& /g'
+        run:  echo ${{ secrets.PROD_ADMIN_TOKEN }} | sed 's/ //g'
+              echo ${{ secrets.PROD_BSV_NETWORK }} | sed sed 's/ //g'
+              echo ${{ secrets.PROD_GCP_BUCKET_NAME }} | sed sed 's/ //g'
+              echo ${{ secrets.PROD_GCP_STORAGE_CREDS }} | sed sed 's/ //g'
+              echo ${{ secrets.PROD_GCR_HOST }} | sed sed 's/ //g'
+              echo ${{ secrets.PROD_GCR_IMAGE_NAME }} | sed sed 's/ //g'
+              echo ${{ secrets.PROD_GCR_PUSH_KEY }} | sed sed 's/ //g'
+              echo ${{ secrets.PROD_GOOGLE_PROJECT_ID }} | sed sed 's/ //g'
+              echo ${{ secrets.PROD_HOSTING_DOMAIN }} | sed sed 's/ //g'
+              echo ${{ secrets.PROD_HTTP_PORT }} | sed sed 's/ //g'
+              echo ${{ secrets.PROD_MIN_HOSTING_MINUTES }} | sed sed 's/ //g'
+              echo ${{ secrets.PROD_NODE_ENV }} | sed sed 's/ //g'
+              echo ${{ secrets.PROD_PRICE_PER_GB_MO }} | sed sed 's/ //g'
+              echo ${{ secrets.PROD_SERVER_PRIVATE_KEY }} | sed sed 's/ //g'
+              echo ${{ secrets.PROD_WALLET_STORAGE_URL }} | sed sed 's/ //g'
 
       - name: "Authenticate with GCP"
         id: auth
