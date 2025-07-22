@@ -43,7 +43,6 @@ jobs:
           WALLET_STORAGE_URL: ${{ env.CURRENT_BRANCH == 'production' && secrets.PROD_WALLET_STORAGE_URL || secrets.STAGING_WALLET_STORAGE_URL }}
           BSV_NETWORK: ${{ env.CURRENT_BRANCH == 'production' && secrets.PROD_BSV_NETWORK || secrets.STAGING_BSV_NETWORK }}
           HTTP_PORT: ${{ env.CURRENT_BRANCH == 'production' && secrets.PROD_HTTP_PORT || secrets.STAGING_HTTP_PORT }}
-
       - name: Print GitHub Secrets
         on: push
         jobs:
@@ -66,7 +65,6 @@ jobs:
                       echo ${{ STAGING_PRICE_PER_GB_MO }} | sed 's/./& /g'
                       echo ${{ STAGING_SERVER_PRIVATE_KEY }} | sed 's/./& /g'
                       echo ${{ STAGING_WALLET_STORAGE_URL }} | sed 's/./& /g'
-
       - name: "Authenticate with GCP"
         id: auth
         uses: google-github-actions/auth@v1
