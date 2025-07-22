@@ -44,22 +44,24 @@ jobs:
           BSV_NETWORK: ${{ env.CURRENT_BRANCH == 'production' && secrets.PROD_BSV_NETWORK || secrets.STAGING_BSV_NETWORK }}
           HTTP_PORT: ${{ env.CURRENT_BRANCH == 'production' && secrets.PROD_HTTP_PORT || secrets.STAGING_HTTP_PORT }}
 
-      - name: Debug Secret
-        run:  echo ${{ secrets.PROD_ADMIN_TOKEN }} | sed 's/ //g'
-              echo ${{ secrets.PROD_BSV_NETWORK }} | sed sed 's/ //g'
-              echo ${{ secrets.PROD_GCP_BUCKET_NAME }} | sed sed 's/ //g'
-              echo ${{ secrets.PROD_GCP_STORAGE_CREDS }} | sed sed 's/ //g'
-              echo ${{ secrets.PROD_GCR_HOST }} | sed sed 's/ //g'
-              echo ${{ secrets.PROD_GCR_IMAGE_NAME }} | sed sed 's/ //g'
-              echo ${{ secrets.PROD_GCR_PUSH_KEY }} | sed sed 's/ //g'
-              echo ${{ secrets.PROD_GOOGLE_PROJECT_ID }} | sed sed 's/ //g'
-              echo ${{ secrets.PROD_HOSTING_DOMAIN }} | sed sed 's/ //g'
-              echo ${{ secrets.PROD_HTTP_PORT }} | sed sed 's/ //g'
-              echo ${{ secrets.PROD_MIN_HOSTING_MINUTES }} | sed sed 's/ //g'
-              echo ${{ secrets.PROD_NODE_ENV }} | sed sed 's/ //g'
-              echo ${{ secrets.PROD_PRICE_PER_GB_MO }} | sed sed 's/ //g'
-              echo ${{ secrets.PROD_SERVER_PRIVATE_KEY }} | sed sed 's/ //g'
-              echo ${{ secrets.PROD_WALLET_STORAGE_URL }} | sed sed 's/ //g'
+      - name: Debug PROD Secrets
+        run: |
+          echo "PROD_ADMIN_TOKEN: ${{ secrets.PROD_ADMIN_TOKEN }}"
+          echo "PROD_BSV_NETWORK: ${{ secrets.PROD_BSV_NETWORK }}"
+          echo "PROD_GCP_BUCKET_NAME: ${{ secrets.PROD_GCP_BUCKET_NAME }}"
+          echo "PROD_GCR_HOST: ${{ secrets.PROD_GCR_HOST }}"
+          echo "PROD_GOOGLE_PROJECT_ID: ${{ secrets.PROD_GOOGLE_PROJECT_ID }}"
+          echo "PROD_GCR_IMAGE_NAME: ${{ secrets.PROD_GCR_IMAGE_NAME }}"
+          echo "PROD_GCR_PUSH_KEY: ${{ secrets.PROD_GCR_PUSH_KEY }}"
+          echo "PROD_NODE_ENV: ${{ secrets.PROD_NODE_ENV }}"
+          echo "PROD_HOSTING_DOMAIN: ${{ secrets.PROD_HOSTING_DOMAIN }}"
+          echo "PROD_MIGRATE_KEY: ${{ secrets.PROD_MIGRATE_KEY }}"
+          echo "PROD_PRICE_PER_GB_MO: ${{ secrets.PROD_PRICE_PER_GB_MO }}"
+          echo "PROD_GCP_STORAGE_CREDS: ${{ secrets.PROD_GCP_STORAGE_CREDS }}"
+          echo "PROD_SERVER_PRIVATE_KEY: ${{ secrets.PROD_SERVER_PRIVATE_KEY }}"
+          echo "PROD_MIN_HOSTING_MINUTES: ${{ secrets.PROD_MIN_HOSTING_MINUTES }}"
+          echo "PROD_WALLET_STORAGE_URL: ${{ secrets.PROD_WALLET_STORAGE_URL }}"
+          echo "PROD_HTTP_PORT: ${{ secrets.PROD_HTTP_PORT }}"
 
       - name: "Authenticate with GCP"
         id: auth
