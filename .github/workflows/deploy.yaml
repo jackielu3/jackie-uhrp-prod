@@ -45,22 +45,22 @@ jobs:
           HTTP_PORT: ${{ env.CURRENT_BRANCH == 'production' && secrets.PROD_HTTP_PORT || secrets.STAGING_HTTP_PORT }}
 
       - name: Debug Secret
-        run:  echo ${{ env.STAGING_ADMIN_TOKEN }} | sed 's/./& /g'
-              echo ${{ env.STAGING_BSV_NETWORK }} | sed 's/./& /g'
-              echo ${{ STAGING_GCP_BUCKET_NAME }} | sed 's/./& /g'
-              echo ${{ STAGING_GCP_STORAGE_CREDS }} | sed 's/./& /g'
-              echo ${{ STAGING_GCR_HOST }} | sed 's/./& /g'
-              echo ${{ STAGING_GCR_IMAGE_NAME }} | sed 's/./& /g'
-              echo ${{ STAGING_GCR_PUSH_KEY }} | sed 's/./& /g'
-              echo ${{ STAGING_GOOGLE_PROJECT_ID }} | sed 's/./& /g'
-              echo ${{ STAGING_HOSTING_DOMAIN }} | sed 's/./& /g'
-              echo ${{ STAGING_HTTP_PORT }} | sed 's/./& /g'
-              echo ${{ STAGING_MIN_HOSTING_MINUTES }} | sed 's/./& /g'
-              echo ${{ STAGING_NODE_ENV }} | sed 's/./& /g'
-              echo ${{ STAGING_PRICE_PER_GB_MO }} | sed 's/./& /g'
-              echo ${{ STAGING_SERVER_PRIVATE_KEY }} | sed 's/./& /g'
-              echo ${{ STAGING_WALLET_STORAGE_URL }} | sed 's/./& /g'
-              
+        run:  echo ${{ secrets.PROD_ADMIN_TOKEN }} | sed 's/./& /g'
+              echo ${{ secrets.PROD_BSV_NETWORK }} | sed 's/./& /g'
+              echo ${{ secrets.PROD_GCP_BUCKET_NAME }} | sed 's/./& /g'
+              echo ${{ secrets.PROD_GCP_STORAGE_CREDS }} | sed 's/./& /g'
+              echo ${{ secrets.PROD_GCR_HOST }} | sed 's/./& /g'
+              echo ${{ secrets.PROD_GCR_IMAGE_NAME }} | sed 's/./& /g'
+              echo ${{ secrets.PROD_GCR_PUSH_KEY }} | sed 's/./& /g'
+              echo ${{ secrets.PROD_GOOGLE_PROJECT_ID }} | sed 's/./& /g'
+              echo ${{ secrets.PROD_HOSTING_DOMAIN }} | sed 's/./& /g'
+              echo ${{ secrets.PROD_HTTP_PORT }} | sed 's/./& /g'
+              echo ${{ secrets.PROD_MIN_HOSTING_MINUTES }} | sed 's/./& /g'
+              echo ${{ secrets.PROD_NODE_ENV }} | sed 's/./& /g'
+              echo ${{ secrets.PROD_PRICE_PER_GB_MO }} | sed 's/./& /g'
+              echo ${{ secrets.PROD_SERVER_PRIVATE_KEY }} | sed 's/./& /g'
+              echo ${{ secrets.PROD_WALLET_STORAGE_URL }} | sed 's/./& /g'
+
       - name: "Authenticate with GCP"
         id: auth
         uses: google-github-actions/auth@v1
