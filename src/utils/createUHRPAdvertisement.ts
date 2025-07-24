@@ -49,7 +49,6 @@ export default async function createUHRPAdvertisement({
     // The content length as VarInt
     new Utils.Writer().writeVarIntNum(contentLength).toArray()
   ]
-  console.log('fields', fields)
 
   const wallet = await Setup.createWalletClientNoEnv({
     chain: BSV_NETWORK === 'mainnet' ? 'main' : 'test',
