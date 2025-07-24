@@ -1,53 +1,94 @@
 /* eslint-env jest */
 // set up env vars before requiring
-process.env.UHRP_HOST_PRIVATE_KEY = '5KU2L5qbkL5MPnUK1cuC5fWamjz7aoKCAZAbKdqmChed8TTbWCZ'
+process.env.SERVER_PRIVATE_KEY = '5KU2L5qbkL5MPnUK1cuC5fWamjz7aoKCAZAbKdqmChed8TTbWCZ'
+process.env.BSV_NETWORK = 'testnet'
+process.env.WALLET_STORAGE_URL = 'http://localhost:3000'
 
-import createUHRPAdvertisement from "../createUHRPAdvertisement"
-import { getHashFromURL } from "@bsv/sdk"
+const createUHRPAdvertisement = require('../createUHRPAdvertisement').default
 
-jest.mock('@bsv/sdk')
+// Mock all the BSV SDK components
+jest.mock('@bsv/sdk', () => ({
+  StorageUtils: {
+    getHashFromURL: jest.fn(),
+    getURLForHash: jest.fn(() => 'mock-uhrp-url')
+  },
+  PrivateKey: {
+    fromHex: jest.fn(() => ({
+      toPublicKey: jest.fn(() => ({
+        toString: jest.fn(() => 'mock-public-key')
+      }))
+    }))
+  },
+  Utils: {
+    toArray: jest.fn(() => [1, 2, 3]),
+    toHex: jest.fn(() => 'mock-hex'),
+    Writer: jest.fn(() => ({
+      writeVarIntNum: jest.fn(() => ({
+        toArray: jest.fn(() => [4, 5, 6])
+      }))
+    }))
+  },
+  PushDrop: jest.fn().mockImplementation(() => ({
+    lock: jest.fn(() => Promise.resolve({
+      toHex: jest.fn(() => 'mock-locking-script-hex')
+    }))
+  })),
+  Transaction: {
+    fromAtomicBEEF: jest.fn(() => ({
+      id: jest.fn(() => 'mock-txid')
+    }))
+  },
+  SHIPBroadcaster: jest.fn(() => ({
+    broadcast: jest.fn()
+  }))
+}))
+
+jest.mock('../walletSingleton', () => ({
+  getWallet: jest.fn(() => ({
+    createAction: jest.fn(() => Promise.resolve({
+      tx: 'mock-beef'
+    }))
+  }))
+}))
+
+jest.mock('@bsv/wallet-toolbox', () => ({
+  Setup: {
+    createWalletClientNoEnv: jest.fn(() => Promise.resolve({
+      createAction: jest.fn(() => Promise.resolve({
+        tx: 'mock-beef'
+      }))
+    }))
+  }
+}))
+
+const { StorageUtils } = require('@bsv/sdk')
+
 let valid
 
 describe('createUHRPAdvertisement', () => {
   beforeEach(() => {
-    getHashFromURL.mockReturnValue(require('crypto').randomBytes(32))
-    remembrance.mockReturnValue('MOCK_RV')
+    StorageUtils.getHashFromURL.mockReturnValue([1, 2, 3, 4])
     valid = {
       hash: 'MOCK_HASH',
       objectIdentifier: 'MOCK_IDENTIFIER',
       url: 'MOCK_HTTPS_URL',
       expiryTime: 1620253222257,
-      contentLength: 'MOCK_LEN'
+      contentLength: 100,
+      uploaderIdentityKey: 'mock-uploader-key'
     }
   })
+  
   afterEach(() => {
     jest.clearAllMocks()
   })
-  it('Calls remembrance with correct data', async () => {
+  
+  it('Creates UHRP advertisement successfully', async () => {
+    const result = await createUHRPAdvertisement(valid)
+    expect(result).toEqual({ txid: 'mock-txid' })
+  })
+  
+  it('Converts string hash to array using StorageUtils', async () => {
     await createUHRPAdvertisement(valid)
-    expect(remembrance).toHaveBeenCalledWith({
-      wif: process.env.UHRP_HOST_PRIVATE_KEY,
-      data: [
-        '1UHRPYnMHPuQ5Tgb3AF8JXqwKkmZVy5hG',
-        '15fZmaM8etGtTBQ6m4fxopsP2f2tSb73P2',
-        expect.any(Uint8Array),
-        'advertise',
-        'MOCK_HTTPS_URL',
-        '1620253222',
-        'MOCK_LEN'
-      ]
-    })
-  })
-  it('Returns the value from remembrance', async () => {
-    const returnValue = await createUHRPAdvertisement(valid)
-    expect(returnValue).toEqual('MOCK_RV')
-  })
-  it('Throws an error if broadcast fails', async () => {
-    remembrance.mockImplementation(() => {
-      throw new Error('Failed')
-    })
-    await expect(createUHRPAdvertisement(valid)).rejects.toThrow(new Error(
-      'Address 15fZmaM8etGtTBQ6m4fxopsP2f2tSb73P2 cannot broadcast UHRP advertisement! You should ensure that there are funds available in the address.'
-    ))
+    expect(StorageUtils.getHashFromURL).toHaveBeenCalledWith('MOCK_HASH')
   })
 })

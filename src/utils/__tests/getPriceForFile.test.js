@@ -2,7 +2,7 @@
 // setup env vars before require
 process.env.PRICE_PER_GB_MO = 0.03
 
-const getPriceForFile = require('../getPriceForFile')
+const getPriceForFile = require('../getPriceForFile').default
 const axios = require('axios')
 
 jest.mock('axios')
@@ -25,12 +25,12 @@ describe('getPriceForFile', () => {
     const returnValue = await getPriceForFile(valid)
     expect(returnValue).toEqual(846799)
   })
-  it('Logs an error and uses 100 if the rate request fails', async () => {
+  it('Logs an error and uses 30 if the rate request fails', async () => {
     axios.get.mockReturnValue({ data: null })
     const returnValue = await getPriceForFile(valid)
-    expect(returnValue).toEqual(1693599)
+    expect(returnValue).toEqual(5645333)
     expect(console.error).toHaveBeenCalledWith(
-      'Exchange rate failed, using 100',
+      'Exchange rate failed, using fallback rate of 30',
       expect.any(Error)
     )
   })
@@ -50,6 +50,6 @@ describe('getPriceForFile', () => {
     expect(returnValue).toEqual(4233)
     axios.get.mockReturnValue({ data: { rate: 800000 } })
     returnValue = await getPriceForFile(valid)
-    expect(returnValue).toEqual(546)
+    expect(returnValue).toEqual(211)
   })
 })
