@@ -21,7 +21,7 @@ services:
       MIGRATE_KEY: 'my-great-key'
       NODE_ENV: 'development'
       HOSTING_DOMAIN: 'http://localhost:8080'
-      WALLET_STORAGE_URL: 'https://staging-storage.babbage.systems'
+      WALLET_STORAGE_URL: 'https://store-us-1.bsvb.tech'
       ADMIN_TOKEN: 'admin-token'
       HTTP_PORT: 8080
       PRICE_PER_GB_MO: 0.03
@@ -29,8 +29,8 @@ services:
       SERVER_PRIVATE_KEY: '53a6156d87fd51d00095e82b59d20354b31786206462dbc8bbf5aeaa3a2a9309'
       SERVER_XPRIV: 'xprv9s21ZrQH143K3GN3VANh6bt72CgqhysD35WrbZWq7zJMg9Jegv7qPhgCy1To8PHW8fJoa4EDLCx73FK8Ljfg64mW9XK9g13xkMwZKQPWZ9Y'
       MIN_HOSTING_MINUTES: 15
-      GCP_BUCKET_NAME: 'staging-uhrp'
-      GCP_PROJECT_ID: 'babbage-uhrp'
+      GCP_BUCKET_NAME: 'uhrp'
+      GCP_PROJECT_ID: 'uhrp'
       GOOGLE_APPLICATION_CREDENTIALS: '/app/service-account.json'
     command: npm run dev
 
