@@ -159,12 +159,9 @@ preAuthRoutes.filter(route => !(route as any).unsecured).forEach((route) => {
 
     app.listen(HTTP_PORT, () => {
       console.log('UHRP Storage Server listening on port', HTTP_PORT)
-
-      spawn('nginx', [], { stdio: [process.stdin, process.stdout, process.stderr] })
-
-      const addr = PrivateKey
-        .fromString(SERVER_PRIVATE_KEY).toPublicKey().toAddress()
-      console.log(`UHRP Host Address: ${addr}`)
+      const identityKey = PrivateKey
+        .fromString(SERVER_PRIVATE_KEY).toPublicKey().toString()
+      console.log(`UHRP Host Identity Key: ${identityKey}`)
     })
 
   })();

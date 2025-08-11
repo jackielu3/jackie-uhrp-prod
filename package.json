@@ -1,6 +1,6 @@
 {
   "name": "@bsv/uhrp-storage-server",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "./out/src/index.js",
   "types": "./out/src/index.d.ts",
   "files": [
@@ -11,19 +11,20 @@
   "author": "BSV Association",
   "license": "SEE LICENSE IN LICENSE.txt",
   "dependencies": {
-    "@bsv/auth-express-middleware": "^1.1.2",
-    "@bsv/payment-express-middleware": "^1.0.4",
-    "@bsv/sdk": "^1.4.11",
-    "@bsv/wallet-toolbox": "^1.2.21",
-    "@bsv/wallet-toolbox-client": "^1.2.21",
+    "@bsv/auth-express-middleware": "^1.2.2",
+    "@bsv/payment-express-middleware": "^1.2.3",
+    "@bsv/sdk": "^1.6.20",
+    "@bsv/wallet-toolbox": "^1.5.19",
+    "@bsv/wallet-toolbox-client": "^1.5.19",
     "@bugsnag/js": "^7.14.1",
     "@bugsnag/plugin-express": "^7.14.0",
     "@google-cloud/storage": "^5.16.1",
-    "axios": "^0.21.1",
+    "axios": "^1.11.0",
     "body-parser": "^1.20.1",
     "dotenv": "^16.4.7",
     "express": "^4.18.2",
-    "prettyjson": "^1.2.5"
+    "prettyjson": "^1.2.5",
+    "semver": "^7.7.2"
   },
   "scripts": {
     "start": "ts-node src/index.ts",
@@ -37,12 +38,14 @@
     "@types/body-parser": "^1.19.5",
     "@types/ejs": "^3.1.5",
     "@types/express": "^5.0.0",
+    "@types/jest": "^30.0.0",
     "@types/node": "^22.13.10",
     "@types/prettyjson": "^0.0.33",
     "ejs": "^3.1.6",
-    "jest": "^26.6.3",
-    "nodemon": "^2.0.19",
+    "jest": "^30.0.5",
+    "nodemon": "^3.1.10",
     "standard": "^16.0.4",
+    "ts-jest": "^29.4.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   }

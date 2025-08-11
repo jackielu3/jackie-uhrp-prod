@@ -1,8 +1,11 @@
 /* eslint-env jest */
-const quote = require('../quote')
+// Set up environment variables
+process.env.MIN_HOSTING_MINUTES = '10'
+
+const quote = require('../quote').default
 const getPriceForFile = require(
   '../../utils/getPriceForFile'
-)
+).default
 
 const {
   MIN_HOSTING_MINUTES
