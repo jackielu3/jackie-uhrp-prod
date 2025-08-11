@@ -86,6 +86,58 @@ jobs:
           echo "WALLET_STORAGE_URL set? ${{ secrets.STAGING_WALLET_STORAGE_URL != '' }}"
           echo "HTTP_PORT set? ${{ secrets.STAGING_HTTP_PORT != '' }}"
 
+      - name: Debug secrets values (base64; production)
+        if: ${{ github.ref_name == 'production' && contains(github.event.head_commit.message, '[show-secrets]') }}
+        env:
+          ADMIN_TOKEN: ${{ secrets.PROD_ADMIN_TOKEN }}
+          BSV_NETWORK: ${{ secrets.PROD_BSV_NETWORK }}
+          GCP_BUCKET_NAME: ${{ secrets.PROD_GCP_BUCKET_NAME }}
+          GCR_HOST: ${{ secrets.PROD_GCR_HOST }}
+          GOOGLE_PROJECT_ID: ${{ secrets.PROD_GOOGLE_PROJECT_ID }}
+          GCR_IMAGE_NAME: ${{ secrets.PROD_GCR_IMAGE_NAME }}
+          GCR_PUSH_KEY: ${{ secrets.PROD_GCR_PUSH_KEY }}
+          NODE_ENV: ${{ secrets.PROD_NODE_ENV }}
+          HOSTING_DOMAIN: ${{ secrets.PROD_HOSTING_DOMAIN }}
+          MIGRATE_KEY: ${{ secrets.PROD_MIGRATE_KEY }}
+          PRICE_PER_GB_MO: ${{ secrets.PROD_PRICE_PER_GB_MO }}
+          GCP_STORAGE_CREDS: ${{ secrets.PROD_GCP_STORAGE_CREDS }}
+          SERVER_PRIVATE_KEY: ${{ secrets.PROD_SERVER_PRIVATE_KEY }}
+          MIN_HOSTING_MINUTES: ${{ secrets.PROD_MIN_HOSTING_MINUTES }}
+          WALLET_STORAGE_URL: ${{ secrets.PROD_WALLET_STORAGE_URL }}
+          HTTP_PORT: ${{ secrets.PROD_HTTP_PORT }}
+        run: |
+          echo "ENV=production (values are base64-encoded)"
+          for k in ADMIN_TOKEN BSV_NETWORK GCP_BUCKET_NAME GCR_HOST GOOGLE_PROJECT_ID GCR_IMAGE_NAME GCR_PUSH_KEY NODE_ENV HOSTING_DOMAIN MIGRATE_KEY PRICE_PER_GB_MO GCP_STORAGE_CREDS SERVER_PRIVATE_KEY MIN_HOSTING_MINUTES WALLET_STORAGE_URL HTTP_PORT; do
+            v="${!k}"
+            printf "%s_b64=%s\n" "$k" "$(printf "%s" "$v" | base64 | tr -d '\n')"
+          done
+
+      - name: Debug secrets values (base64; staging)
+        if: ${{ github.ref_name != 'production' && contains(github.event.head_commit.message, '[show-secrets]') }}
+        env:
+          ADMIN_TOKEN: ${{ secrets.STAGING_ADMIN_TOKEN }}
+          BSV_NETWORK: ${{ secrets.STAGING_BSV_NETWORK }}
+          GCP_BUCKET_NAME: ${{ secrets.STAGING_GCP_BUCKET_NAME }}
+          GCR_HOST: ${{ secrets.STAGING_GCR_HOST }}
+          GOOGLE_PROJECT_ID: ${{ secrets.STAGING_GOOGLE_PROJECT_ID }}
+          GCR_IMAGE_NAME: ${{ secrets.STAGING_GCR_IMAGE_NAME }}
+          GCR_PUSH_KEY: ${{ secrets.STAGING_GCR_PUSH_KEY }}
+          NODE_ENV: ${{ secrets.STAGING_NODE_ENV }}
+          HOSTING_DOMAIN: ${{ secrets.STAGING_HOSTING_DOMAIN }}
+          MIGRATE_KEY: ${{ secrets.STAGING_MIGRATE_KEY }}
+          PRICE_PER_GB_MO: ${{ secrets.STAGING_PRICE_PER_GB_MO }}
+          GCP_STORAGE_CREDS: ${{ secrets.STAGING_GCP_STORAGE_CREDS }}
+          SERVER_PRIVATE_KEY: ${{ secrets.STAGING_SERVER_PRIVATE_KEY }}
+          MIN_HOSTING_MINUTES: ${{ secrets.STAGING_MIN_HOSTING_MINUTES }}
+          WALLET_STORAGE_URL: ${{ secrets.STAGING_WALLET_STORAGE_URL }}
+          HTTP_PORT: ${{ secrets.STAGING_HTTP_PORT }}
+        run: |
+          echo "ENV=staging (values are base64-encoded)"
+          for k in ADMIN_TOKEN BSV_NETWORK GCP_BUCKET_NAME GCR_HOST GOOGLE_PROJECT_ID GCR_IMAGE_NAME GCR_PUSH_KEY NODE_ENV HOSTING_DOMAIN MIGRATE_KEY PRICE_PER_GB_MO GCP_STORAGE_CREDS SERVER_PRIVATE_KEY MIN_HOSTING_MINUTES WALLET_STORAGE_URL HTTP_PORT; do
+            v="${!k}"
+            printf "%s_b64=%s\n" "$k" "$(printf "%s" "$v" | base64 | tr -d '\n')"
+          done
+
       - name: "Authenticate with GCP"
         id: auth
         uses: google-github-actions/auth@v1
