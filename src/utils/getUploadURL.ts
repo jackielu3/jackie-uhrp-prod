@@ -40,7 +40,7 @@ const prodUploadFunction = async ({
   if (!GCP_BUCKET_NAME || !GCP_PROJECT_ID) {
     throw new Error('Missing required Google Cloud Storage environment variables.')
   }
-  const serviceKey = path.join(__dirname, '../../storage-creds.json')
+  const serviceKey = path.join(__dirname, './out/storage-creds.json')
   const storage = new Storage({
     keyFilename: serviceKey,
     projectId: GCP_PROJECT_ID
