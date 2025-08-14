@@ -139,17 +139,14 @@ preAuthRoutes.filter(route => !(route as any).unsecured).forEach((route) => {
     // Secured, post-auth routes are added
     postAuthRoutes.forEach((route) => {
       console.log(`adding https post-auth route ${route.path}`)
-      // If we need middleware for a route, attach it
-      if ((route as any).middleware) {
-        app[route.type as 'get' | 'put' | 'post' | 'patch' | 'delete'](
-          route.path,
-          (route as any).middleware,
-          (route as any).func
-        )
-      } else {
-        app[route.type as 'get' | 'put' | 'post' | 'patch' | 'delete'](route.path, (route as any).func)
-      }
+      app[route.type as 'get' | 'put' | 'post' | 'patch' | 'delete'](route.path, authMiddleware,
+        paymentMiddleware, (route as any).func)
     })
+
+
+
+
+
 
     app.use((req, res) => {
       console.log('404', req.url)
