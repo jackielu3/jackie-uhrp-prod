@@ -99,7 +99,7 @@ preAuthRoutes.filter(route => !(route as any).unsecured).forEach((route) => {
     const wallet = await getWallet()
     const authMiddleware = createAuthMiddleware({
       wallet,
-      allowUnauthenticated: false
+      allowUnauthenticated: true
     })
 
     const paymentMiddleware = createPaymentMiddleware({
@@ -132,11 +132,22 @@ preAuthRoutes.filter(route => !(route as any).unsecured).forEach((route) => {
       }
     })
 
+    app.use(authMiddleware);
+    app.use(paymentMiddleware)
+
     // Secured, post-auth routes are added
     postAuthRoutes.forEach((route) => {
       console.log(`adding https post-auth route ${route.path}`)
-      app[route.type as 'get' | 'put' | 'post' | 'patch' | 'delete'](route.path, authMiddleware,
-        paymentMiddleware, (route as any).func)
+      // If we need middleware for a route, attach it
+      if ((route as any).middleware) {
+        app[route.type as 'get' | 'put' | 'post' | 'patch' | 'delete'](
+          route.path,
+          (route as any).middleware,
+          (route as any).func
+        )
+      } else {
+        app[route.type as 'get' | 'put' | 'post' | 'patch' | 'delete'](route.path, (route as any).func)
+      }
     })
 
     app.use((req, res) => {
