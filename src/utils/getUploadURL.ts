@@ -61,7 +61,6 @@ const prodUploadFunction = async ({
     action: 'write',
     expires: Date.now() + 604000 * 1000, // 1 week
     extensionHeaders: {
-      'content-length': size.toString(),
       'x-goog-meta-uploaderidentitykey': uploaderIdentityKey,
       'x-goog-custom-time': customTime
     }
@@ -70,7 +69,6 @@ const prodUploadFunction = async ({
   return {
     uploadURL,
     requiredHeaders: {
-      'content-length': size.toString(),
       'x-goog-meta-uploaderidentitykey': uploaderIdentityKey,
       'x-goog-custom-time': customTime
     }
