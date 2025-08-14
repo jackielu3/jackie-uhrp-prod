@@ -132,21 +132,12 @@ preAuthRoutes.filter(route => !(route as any).unsecured).forEach((route) => {
       }
     })
 
-    app.use(authMiddleware);
-    app.use(paymentMiddleware)
-
-
     // Secured, post-auth routes are added
     postAuthRoutes.forEach((route) => {
       console.log(`adding https post-auth route ${route.path}`)
       app[route.type as 'get' | 'put' | 'post' | 'patch' | 'delete'](route.path, authMiddleware,
         paymentMiddleware, (route as any).func)
     })
-
-
-
-
-
 
     app.use((req, res) => {
       console.log('404', req.url)
