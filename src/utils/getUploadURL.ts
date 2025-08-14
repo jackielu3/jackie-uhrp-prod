@@ -41,6 +41,7 @@ const prodUploadFunction = async ({
     throw new Error('Missing required Google Cloud Storage environment variables.')
   }
   const serviceKey = path.join(__dirname,  '../../storage-creds.json')
+  console.log('storage creds path:', serviceKey)
   const storage = new Storage({
     keyFilename: serviceKey,
     projectId: GCP_PROJECT_ID
