@@ -10,9 +10,12 @@ import { getWallet } from './utils/walletSingleton'
 import routes from './routes'
 import getPriceForFile from './utils/getPriceForFile'
 import { getMetadata } from './utils/getMetadata'
+import path from 'path'
+import fs from 'fs'
 
 const SERVER_PRIVATE_KEY = process.env.SERVER_PRIVATE_KEY as string
 const HTTP_PORT = process.env.HTTP_PORT || 8080
+const GOOGLE_APPLICATION_CREDENTIALS = process.env.GOOGLE_APPLICATION_CREDENTIALS as string
 
 const app = express()
 app.use(bodyparser.json({ limit: '1gb', type: 'application/json' }))
@@ -159,6 +162,16 @@ preAuthRoutes.filter(route => !(route as any).unsecured).forEach((route) => {
 
     app.listen(HTTP_PORT, () => {
       console.log('UHRP Storage Server listening on port', HTTP_PORT)
+
+      const serviceKey = GOOGLE_APPLICATION_CREDENTIALS || path.resolve(process.cwd(), 'storage-creds.json')
+      console.log('STORAGE CREDS PATH:', serviceKey)
+      try {
+        const creds = fs.readFileSync(serviceKey, 'utf8')
+        console.log('STORAGE CREDS:', creds)
+      } catch (e) {
+        console.error('Failed to read storage creds:', e)
+      }
+
       const identityKey = PrivateKey
         .fromString(SERVER_PRIVATE_KEY).toPublicKey().toString()
       console.log(`UHRP Host Identity Key: ${identityKey}`)
