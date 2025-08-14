@@ -1,7 +1,7 @@
 import { Storage } from '@google-cloud/storage'
 import path from 'path'
 
-const { NODE_ENV, GCP_BUCKET_NAME, GCP_PROJECT_ID } = process.env
+const { NODE_ENV, GCP_BUCKET_NAME, GCP_PROJECT_ID, GOOGLE_APPLICATION_CREDENTIALS } = process.env
 
 interface UploadParams {
   size: number
@@ -40,7 +40,7 @@ const prodUploadFunction = async ({
   if (!GCP_BUCKET_NAME || !GCP_PROJECT_ID) {
     throw new Error('Missing required Google Cloud Storage environment variables.')
   }
-  const serviceKey = path.join(__dirname,  '../../storage-creds.json')
+  const serviceKey = GOOGLE_APPLICATION_CREDENTIALS || path.resolve(process.cwd(), 'storage-creds.json')
   console.log('storage creds path:', serviceKey)
   const storage = new Storage({
     keyFilename: serviceKey,
