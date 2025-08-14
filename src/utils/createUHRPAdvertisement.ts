@@ -32,6 +32,8 @@ export default async function createUHRPAdvertisement({
     hash = StorageUtils.getHashFromURL(hash)
   }
 
+  console.log("ADVERTISING")
+
   const expiryTimeSeconds = Math.floor(expiryTime)
   const key = PrivateKey.fromHex(SERVER_PRIVATE_KEY)
   const serverPublicKey = key.toPublicKey().toString()
@@ -86,6 +88,8 @@ export default async function createUHRPAdvertisement({
     networkPreset: BSV_NETWORK
   })
   await broadcaster.broadcast(transaction)
+
+  console.log("ADVERTISED")
 
   return {
     txid
