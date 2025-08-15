@@ -1,5 +1,4 @@
 import { Storage } from '@google-cloud/storage'
-import path from 'path'
 
 const { NODE_ENV, GCP_BUCKET_NAME, GCP_PROJECT_ID, GCP_STORAGE_CREDS } = process.env
 
@@ -40,8 +39,6 @@ const prodUploadFunction = async ({
   if (!GCP_BUCKET_NAME || !GCP_PROJECT_ID) {
     throw new Error('Missing required Google Cloud Storage environment variables.')
   }
-
-  console.log("CREDS:", GCP_STORAGE_CREDS)
   
   const storage = new Storage({
     projectId: GCP_PROJECT_ID,
