@@ -39,20 +39,20 @@ const advertiseHandler = async (req: AdvertiseRequest, res: Response<AdvertiseRe
 
   try {
     const expiryTime = Number(req.body.expiryTime) // in seconds
-    
+
     await createUHRPAdvertisement({
       hash: StorageUtils.getHashFromURL(req.body.uhrpUrl),
       objectIdentifier: req.body.objectIdentifier,
-      url: `${HOSTING_DOMAIN}/cdn/${req.body.objectIdentifier}`,
+      url: `https://storage.googleapis.com/${GCP_BUCKET_NAME}/cdn/${req.body.objectIdentifier}`,
       uploaderIdentityKey: req.body.uploaderIdentityKey,
       expiryTime,
       contentLength: req.body.fileSize
     })
 
     const storageFile = storage
-    .bucket(GCP_BUCKET_NAME as string)
-    .file(`cdn/${req.body.objectIdentifier}`)
-    
+      .bucket(GCP_BUCKET_NAME as string)
+      .file(`cdn/${req.body.objectIdentifier}`)
+
     await storageFile.setMetadata({
       customTime: new Date((expiryTime + 300) * 1000).toISOString()
     })
